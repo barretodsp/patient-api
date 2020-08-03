@@ -7,7 +7,7 @@ async function addContact(dbconnection, patient_id, contact_number) {
     text: "INSERT INTO contacts (contact_id, patient_id, contact_number, created_dt) VALUES ($1, $2, $3, CURRENT_TIMESTAMP )",
     rowMode: "array"
   };
-  let id = uuid();
+  const id = uuid();
   return await dbconnection.query(queryAdd, [id, patient_id, contact_number]);
 }
 
@@ -26,7 +26,7 @@ module.exports = {
         data: 'success'
       });
     } catch (er) {
-      console.log('ERRO', er);
+      console.log('ERRO 555 ', er);
       client.query('ROLLBACK');
       res.status(500).json({
         error: "Erro interno.",

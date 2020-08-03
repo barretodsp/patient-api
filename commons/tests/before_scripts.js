@@ -17,6 +17,25 @@ async function clean() {
   return;
 }
 
+async function createPatient(patient_id) {
+  const query = {
+    text: "INSERT INTO patients (patient_id, first_name, last_name, birth_dt, cpf, blood_type, created_dt) VALUES ($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP) RETURNING patient_id",
+    rowMode: "array"
+  };
+  const client = await db.connect();
+  try {
+    client.query("BEGIN");
+    await client.query(query, [patient_id, 'Fname2', 'Lname2', '2020-01-01', '77722233344', 'A+'])
+    client.query('COMMIT');
+    return;
+  } catch (er) {
+    console.log( 'EERRRO >>> ', er)
+    client.query('ROLLBACK');
+    return;
+  } finally{
+    client.release()
+  }
+}
 
 async function createPatientAndContact() {
   const query = {
@@ -29,17 +48,18 @@ async function createPatientAndContact() {
     rowMode: "array"
   };
 
+  const client = await db.connect();
   try {
-    let client = await db.connect();
     client.query("BEGIN");
     let resp = await client.query(query, ['Fname1', 'Lname1', '2020-01-01', '11122233344', 'AB+'])
-    console.log('O RESP', resp.rows[0][0]);
     await client.query(query_ct, [resp.rows[0][0], '(21)97777-5555'])
     client.query('COMMIT');
     return;
   } catch (er) {
     client.query('ROLLBACK');
     return;
+  } finally{
+    client.release()
   }
 
 
@@ -48,5 +68,6 @@ async function createPatientAndContact() {
 
 module.exports = {
   createPatientAndContact,
-  clean
+  clean,
+  createPatient
 }

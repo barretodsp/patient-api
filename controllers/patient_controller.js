@@ -64,7 +64,7 @@ module.exports = {
         });
       }
     } catch (er) {
-      console.log('ERRO', er);
+      console.log('ERRO 111', er);
       client.query('ROLLBACK');
       res.status(500).json({
         error: "Erro interno.",
