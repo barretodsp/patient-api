@@ -13,12 +13,21 @@ async function addPatient(dbconnection, id, first_name, last_name, cpf, birth_dt
 }
 
 async function updatePatient(dbconnection, id, first_name, last_name, blood_type) {
-  const queryAdd = {
+  const queryUpdate = {
     text: "UPDATE patients SET first_name = $1, last_name = $2, blood_type = $3 WHERE patient_id = $4",
     rowMode: "array"
   };
-  return await dbconnection.query(queryAdd, [first_name, last_name, blood_type, id]);
+  return await dbconnection.query(queryUpdate, [first_name, last_name, blood_type, id]);
 }
+
+async function deletePatient(dbconnection, id) {
+  const queryDel = {
+    text: "DELETE FROM patients WHERE patient_id = $1",
+    rowMode: "array"
+  };
+  return await dbconnection.query(queryDel, [id]);
+}
+
 
 
 
@@ -87,6 +96,22 @@ module.exports = {
     const client = await db.connect();
     try {
       await updatePatient(client, req.body.patient_id, req.body.first_name, req.body.last_name, req.body.blood_type);
+      res.status(200).json({
+        data: 'success'
+      });
+    } catch (er) {
+      console.log('ERRO 555 ', er);
+      res.status(500).json({
+        error: "Erro interno.",
+      });
+    } finally {
+      client.release();
+    }
+  },
+  delete: async (req, res) => {
+    const client = await db.connect();
+    try {
+      await deletePatient(client, req.body.patient_id);
       res.status(200).json({
         data: 'success'
       });

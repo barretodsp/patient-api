@@ -7,4 +7,6 @@ module.exports = (router) => {
     .post(controller.create)
   router.route('/patient/update')
     .post(controller.update)
+  router.route('/patient/delete')
+    .delete(controller.delete)
 };
