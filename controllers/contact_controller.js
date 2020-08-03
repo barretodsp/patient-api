@@ -11,6 +11,15 @@ async function addContact(dbconnection, patient_id, contact_number) {
   return await dbconnection.query(queryAdd, [id, patient_id, contact_number]);
 }
 
+async function deleteContact(dbconnection, id) {
+  const queryDel = {
+    text: "DELETE FROM contacts WHERE contact_id = $1",
+    rowMode: "array"
+  };
+  return await dbconnection.query(queryDel, [id]);
+}
+
+
 module.exports = {
   addContact,
   create: async (req, res) => {
@@ -27,6 +36,22 @@ module.exports = {
     } catch (er) {
       console.log('ERRO 555 ', er);
       client.query('ROLLBACK');
+      res.status(500).json({
+        error: "Erro interno.",
+      });
+    } finally {
+      client.release();
+    }
+  },
+  delete: async (req, res) => {
+    const client = await db.connect();
+    try {
+      await deleteContact(client, req.body.contact_id);
+      res.status(200).json({
+        data: 'success'
+      });
+    } catch (er) {
+      console.log('ERRO 555 ', er);
       res.status(500).json({
         error: "Erro interno.",
       });
