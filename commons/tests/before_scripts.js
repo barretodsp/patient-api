@@ -37,6 +37,26 @@ async function createPatient(patient_id) {
   }
 }
 
+async function createContact(patient_id, contact_id) {
+  const query_ct = {
+    text: "insert into contacts (contact_id, patient_id, contact_number, created_dt) values ($1, $2, $3, CURRENT_TIMESTAMP);",
+    rowMode: "array"
+  };
+  const client = await db.connect();
+  try {
+    client.query("BEGIN");
+    await client.query(query_ct, [contact_id, patient_id, '(21)91111-5555'])
+    client.query('COMMIT');
+    return;
+  } catch (er) {
+    console.log( 'EERRRO >>> ', er)
+    client.query('ROLLBACK');
+    return;
+  } finally{
+    client.release()
+  }
+}
+
 async function createPatientAndContact() {
   const query = {
     text: "INSERT INTO patients (patient_id, first_name, last_name, birth_dt, cpf, blood_type, created_dt) VALUES (uuid_generate_v1(), $1, $2, $3, $4, $5, CURRENT_TIMESTAMP) RETURNING patient_id",
@@ -69,5 +89,6 @@ async function createPatientAndContact() {
 module.exports = {
   createPatientAndContact,
   clean,
-  createPatient
+  createPatient,
+  createContact
 }

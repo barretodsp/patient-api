@@ -100,6 +100,15 @@ describe("Patient Endpoints", function () {
       });
     });
   })
+
+  describe("DELETE#/patient/delete", function () {
+    it(" Delete the patient. ", function (done) {
+      request.delete({  url: urlBase + '/api/v1/patient/delete', json: {patient_id: pcid} }, function (error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+    });
+  })
 })
 
 
