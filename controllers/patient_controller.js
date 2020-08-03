@@ -19,9 +19,9 @@ module.exports = {
       text: "select array_to_json(array_agg(row_to_json(t))) from (SELECT pc.patient_id, pc.first_name, pc.last_name, pc.birth_dt, pc.blood_type, pc.cpf, array_to_json(array_agg(array[cast(ct.contact_id AS varchar), ct.contact_number])) as contacts FROM patients pc INNER JOIN contacts ct ON ct.patient_id = pc.patient_id GROUP BY pc.patient_id ) t;",
       rowMode: "array"
     };
+    const client = await db.connect();
     console.log("patient-get");
     try {
-      const client = await db.connect();
       let resp = await client.query(query);
       res.status(200).json({
         data: resp.rows[0][0] || []
@@ -48,7 +48,7 @@ module.exports = {
         cpf: req.body.cpf
       })
       let contacts = req.body.contacts;
-      if (patient.validate()) {
+      if (patient.validate() && contacts && Array.isArray(contacts)) {
         client.query("BEGIN");
         await addPatient(client, patient.patient_id, patient.first_name, patient.last_name, patient.cpf, patient.birth_dt, patient.blood_type);
         for(var i = 0; i < contacts.length ; i++){
@@ -60,7 +60,7 @@ module.exports = {
         });
       } else {
         res.status(400).json({
-          data: 'success'
+          error: 'Parâmetros inválidos.'
         });
       }
     } catch (er) {
