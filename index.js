@@ -13,6 +13,7 @@ const app = express();
 const router = express.Router();
 const routes = require('./routes/index.js');
 
+// ************** CORS
 var cors = require('cors')
 app.use(cors());
 
