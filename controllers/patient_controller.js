@@ -12,6 +12,15 @@ async function addPatient(dbconnection, id, first_name, last_name, cpf, birth_dt
   return await dbconnection.query(queryAdd, [id, first_name, last_name, cpf, birth_dt, blood_type]);
 }
 
+async function updatePatient(dbconnection, id, first_name, last_name, blood_type) {
+  const queryAdd = {
+    text: "UPDATE patients SET first_name = $1, last_name = $2, blood_type = $3 WHERE patient_id = $4",
+    rowMode: "array"
+  };
+  return await dbconnection.query(queryAdd, [first_name, last_name, blood_type, id]);
+}
+
+
 
 module.exports = {
   getAll: async (req, res) => {
@@ -73,5 +82,21 @@ module.exports = {
       client.release();
     }
 
+  },
+  update: async (req, res) => {
+    const client = await db.connect();
+    try {
+      await updatePatient(client, req.body.patient_id, req.body.first_name, req.body.last_name, req.body.blood_type);
+      res.status(200).json({
+        data: 'success'
+      });
+    } catch (er) {
+      console.log('ERRO 555 ', er);
+      res.status(500).json({
+        error: "Erro interno.",
+      });
+    } finally {
+      client.release();
+    }
   }
 }

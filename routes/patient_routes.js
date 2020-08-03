@@ -5,4 +5,6 @@ module.exports = (router) => {
     .get(controller.getAll)
   router.route('/patient/create')
     .post(controller.create)
+  router.route('/patient/update')
+    .post(controller.update)
 };

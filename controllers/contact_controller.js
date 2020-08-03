@@ -11,7 +11,6 @@ async function addContact(dbconnection, patient_id, contact_number) {
   return await dbconnection.query(queryAdd, [id, patient_id, contact_number]);
 }
 
-
 module.exports = {
   addContact,
   create: async (req, res) => {
@@ -34,7 +33,5 @@ module.exports = {
     } finally {
       client.release();
     }
-
   }
-
 }
