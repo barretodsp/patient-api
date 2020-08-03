@@ -65,6 +65,7 @@ module.exports = {
         blood_type: req.body.blood_type,
         cpf: req.body.cpf
       })
+      console.log('DADOS RECEBIDOS: ', req.body)
       let contacts = req.body.contacts;
       if (patient.validate() && contacts && Array.isArray(contacts)) {
         client.query("BEGIN");
@@ -77,6 +78,7 @@ module.exports = {
           data: 'success'
         });
       } else {
+        console.log('ERRO 400')
         res.status(400).json({
           error: 'Parâmetros inválidos.'
         });

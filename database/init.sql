@@ -32,7 +32,7 @@ CREATE TABLE contacts (
 GRANT ALL PRIVILEGES ON TABLE contacts TO patientapi;
 GRANT SELECT ON contacts TO patientapi;
 
-\c shortener_test;
+\c database_test;
 
 CREATE TABLE patients (
   patient_id uuid NOT NULL,
