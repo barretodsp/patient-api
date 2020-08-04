@@ -52,7 +52,18 @@ P.S: make sure script granted (chmod 777 run-test.sh | chmod 777 mocha.sh )
 | POST  | http://localhost:4000/api/v1/contact/create  | { patient_id: uuid, contact_number: string } | Create a contact |
 | DELETE  | http://localhost:4000/api/v1/contact/delete  | { contact_id: uuid } | Delete a contact |
 
-## End
+## Examples
+
+**Create a patients**
+
+```
+curl -X POST -H 'Content-type: application/json' -d '{"first_name": "Ana", "last_name": "Silva", "birth_dt": "2020-05-30", "blood_type": "AB+", "cpf": "11122233344", "contacts": ["(21)2222-3333", "(21)98888-9999"] }' localhost:4000/api/v1/patient/create
+```
+**Receive all patients**
+
+```
+curl -X GET -H 'Content-type: application/json'  localhost:4000/api/v1/patient/getAll
+```
 
 
 **Use this api with client app (https://github.com/barretodsp/patient-front) ! **
