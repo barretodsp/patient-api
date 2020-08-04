@@ -35,7 +35,7 @@ Run the following commands into terminal to run tests.
 
 ``` 
 $ ./run-test.sh
-$ ./mocha // in other terminal tab.
+$ ./mocha.sh // in other terminal tab.
 ``` 
 P.S: make sure script granted (CHMOD 777 run-test.sh || CHMOD 777 mocha.sh ) 
 
@@ -51,7 +51,7 @@ P.S: make sure script granted (CHMOD 777 run-test.sh || CHMOD 777 mocha.sh )
 | POST  | /contact/create  | { patient_id: UUID, contact_number: string } | Create a contact |
 | DELETE  | /contact/delete  | { contact_id: UUID } | Delete a contact |
 
-## Usage Examples
+## End
 
 
 **Use this api with client app (https://github.com/barretodsp/patient-front) ! **
