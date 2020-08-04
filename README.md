@@ -54,7 +54,7 @@ P.S: make sure script granted (chmod 777 run-test.sh | chmod 777 mocha.sh )
 
 ## Examples
 
-**Create a patients**
+**Create a patient**
 
 ```
 curl -X POST -H 'Content-type: application/json' -d '{"first_name": "Ana", "last_name": "Silva", "birth_dt": "2020-05-30", "blood_type": "AB+", "cpf": "11122233344", "contacts": ["(21)2222-3333", "(21)98888-9999"] }' localhost:4000/api/v1/patient/create
