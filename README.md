@@ -3,7 +3,7 @@
 ## Project Setup
 This step-by-step shows how you can run this api locally.
 
-Requirements:  | Ubuntu | NodeJs | Docker | 
+Requirements:  | Linux | NodeJs | Docker | 
 
 **Setup & Run API**
 
